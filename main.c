@@ -60,7 +60,7 @@ bool menu(){
             deleteMatrix(result);
             return true;
         }
-        case 2:
+        case 2: {
             printf("Enter the number of rows and columns of the first matrix\n");
             int rows1, columns1;
             scanf("%d %d", &rows1, &columns1);
@@ -69,28 +69,28 @@ bool menu(){
             int rows2, columns2;
             scanf("%d %d", &rows2, &columns2);
             Matrix *matrix2 = createMatrix(rows2, columns2);
-            if(columns1 != rows2){
+            if (columns1 != rows2) {
                 printf("Matrices have different dimensions\n");
                 return true;
             }
             printf("Enter the elements of the first matrix\n");
-            for(int i = 0; i < rows1; i++){
-                for(int j = 0; j < columns1; j++){
+            for (int i = 0; i < rows1; i++) {
+                for (int j = 0; j < columns1; j++) {
                     char string[100];
                     scanf("%s", string);
                     setElement(matrix1, i, j, stringToComplex(string));
                 }
             }
             printf("Enter the elements of the second matrix\n");
-            for(int i = 0; i < rows2; i++){
-                for(int j = 0; j < columns2; j++){
+            for (int i = 0; i < rows2; i++) {
+                for (int j = 0; j < columns2; j++) {
                     char string[100];
                     scanf("%s", string);
                     setElement(matrix2, i, j, stringToComplex(string));
                 }
             }
-            Matrix* result = multiply(matrix1, matrix2);
-            if(result == NULL){
+            Matrix *result = multiply(matrix1, matrix2);
+            if (result == NULL) {
                 printf("Matrices have different dimensions\n");
                 return true;
             }
@@ -103,6 +103,7 @@ bool menu(){
             deleteMatrix(matrix2);
             deleteMatrix(result);
             return true;
+        }
         case 3: {
             printf("Enter the number of rows and columns of the matrix\n");
             int rows, columns;
