@@ -103,8 +103,68 @@ bool menu(){
             deleteMatrix(matrix2);
             deleteMatrix(result);
             return true;
-        case 3:
-        case 4:
+        case 3: {
+            printf("Enter the number of rows and columns of the matrix\n");
+            int rows, columns;
+            scanf("%d %d", &rows, &columns);
+            Matrix *matrix = createMatrix(rows, columns);
+            printf("Enter the elements of the matrix\n");
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    char string[100];
+                    scanf("%s", string);
+                    setElement(matrix, i, j, stringToComplex(string));
+                }
+            }
+            printf("Enter the scalar\n");
+            double scalar;
+            scanf("%lf", &scalar);
+            Matrix *result = scalarMultiply(matrix, createComplex(scalar, 0));
+            printMatrix(matrix);
+            printf("*%lf=\n", scalar);
+            printMatrix(result);
+            deleteMatrix(matrix);
+            deleteMatrix(result);
+            return true;
+        }
+        case 4: {
+            printf("Enter the number of rows and columns of the matrix\n");
+            int rows, columns;
+            scanf("%d %d", &rows, &columns);
+            Matrix *matrix = createMatrix(rows, columns);
+            printf("Enter the elements of the matrix\n");
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    char string[100];
+                    scanf("%s", string);
+                    setElement(matrix, i, j, stringToComplex(string));
+                }
+            }
+            printf("Enter the row number\n");
+            int row;
+            scanf("%d", &row);
+            printf("Enter the coefficients\n");
+            DynamicArray *alphas = createDynamicArray(sizeof(Complex));
+            for (int i = 0; i < columns; i++) {
+                char string[100];
+                scanf("%s", string);
+                append(alphas, stringToComplex(string));
+            }
+            Matrix *result = addLinearCombination(matrix, row, alphas);
+            printMatrix(matrix);
+            printf("+\n");
+            printf("alpha1*");
+            printMatrix(matrix);
+            printf("+...+\n");
+            printf("alpha%d*", columns);
+            printMatrix(matrix);
+            printf("=\n");
+            printMatrix(result);
+            deleteMatrix(matrix);
+            deleteMatrix(result);
+            deleteDynamicArray(alphas);
+            return true;
+        }
         case 5:
             printf("Not implemented\n");
             return true;
