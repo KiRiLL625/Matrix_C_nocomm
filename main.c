@@ -11,8 +11,7 @@ bool menu(){
     printf("2. Multiply matrices\n");
     printf("3. Multiply matrix by scalar\n");
     printf("4. Add linear combination of rows\n");
-    printf("5. Print matrix\n");
-    printf("6. Exit\n");
+    printf("5. Exit\n");
     int option;
     scanf("%d", &option);
     switch (option) {
@@ -167,12 +166,11 @@ bool menu(){
             return true;
         }
         case 5:
-            printf("Not implemented\n");
-            return true;
-        case 6:
             return false;
+        default:
+            printf("Wrong option! Choose another.\n");
+            return true;
     }
-    return false;
 }
 
 int main() {
