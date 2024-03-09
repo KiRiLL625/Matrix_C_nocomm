@@ -49,6 +49,7 @@ bool menu(){
                 printf("Matrices have different dimensions\n");
                 return true;
             }
+            printf("___________________________________\n");
             printMatrix(matrix1);
             printf("+\n");
             printMatrix(matrix2);
@@ -57,6 +58,7 @@ bool menu(){
             deleteMatrix(matrix1);
             deleteMatrix(matrix2);
             deleteMatrix(result);
+            printf("___________________________________\n");
             return true;
         }
         case 2: {
@@ -93,6 +95,7 @@ bool menu(){
                 printf("Matrices have different dimensions\n");
                 return true;
             }
+            printf("___________________________________\n");
             printMatrix(matrix1);
             printf("*\n");
             printMatrix(matrix2);
@@ -101,6 +104,7 @@ bool menu(){
             deleteMatrix(matrix1);
             deleteMatrix(matrix2);
             deleteMatrix(result);
+            printf("___________________________________\n");
             return true;
         }
         case 3: {
@@ -120,9 +124,11 @@ bool menu(){
             double scalar;
             scanf("%lf", &scalar);
             Matrix *result = scalarMultiply(matrix, createComplex(scalar, 0));
+            printf("___________________________________\n");
             printMatrix(matrix);
             printf("*%lf=\n", scalar);
             printMatrix(result);
+            printf("___________________________________\n");
             deleteMatrix(matrix);
             deleteMatrix(result);
             return true;
@@ -151,6 +157,7 @@ bool menu(){
                 append(alphas, stringToComplex(string));
             }
             Matrix *result = addLinearCombination(matrix, row, alphas);
+            printf("___________________________________\n");
             printMatrix(matrix);
             printf("+\n");
             printf("alpha1*");
@@ -160,6 +167,7 @@ bool menu(){
             printMatrix(matrix);
             printf("=\n");
             printMatrix(result);
+            printf("___________________________________\n");
             deleteMatrix(matrix);
             deleteMatrix(result);
             deleteDynamicArray(alphas);
