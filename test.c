@@ -7,7 +7,7 @@
 #include "Complex.h"
 
 int tests_passed = 0;
-const int total_tests = 68;
+const int total_tests = 76;
 
 TEST(CREATE_DYNAMIC_ARRAY) {
     DynamicArray *dynamicArray = createDynamicArray(10);
@@ -187,6 +187,45 @@ TEST(MATRIX_ADD){
         deleteMatrix(result);
 }
 
+TEST(MATRIX_ADD_HARD){
+    Matrix *matrix1 = createMatrix(2, 2);
+    Matrix *matrix2 = createMatrix(2, 2);
+    Complex *complex1 = createComplex(0, 2);
+    Complex *complex2 = createComplex(0, -2);
+    setElement(matrix1, 0, 0, complex1);
+    setElement(matrix1, 0, 1, complex1);
+    setElement(matrix1, 1, 0, complex1);
+    setElement(matrix1, 1, 1, complex2);
+    setElement(matrix2, 0, 0, complex1);
+    setElement(matrix2, 0, 1, complex1);
+    setElement(matrix2, 1, 0, complex1);
+    setElement(matrix2, 1, 1, complex2);
+    Matrix *result = add(matrix1, matrix2);
+    EXPECT_STRING_EQ("4i", complexToString(getElement(result, 0, 0)));
+    EXPECT_STRING_EQ("4i", complexToString(getElement(result, 0, 1)));
+    EXPECT_STRING_EQ("4i", complexToString(getElement(result, 1, 0)));
+    EXPECT_STRING_EQ("-4i", complexToString(getElement(result, 1, 1)));
+    complex1 = createComplex(2, 0);
+    complex2 = createComplex(-2, 0);
+    setElement(matrix1, 0, 0, complex1);
+    setElement(matrix1, 0, 1, complex1);
+    setElement(matrix1, 1, 0, complex1);
+    setElement(matrix1, 1, 1, complex2);
+    setElement(matrix2, 0, 0, complex1);
+    setElement(matrix2, 0, 1, complex1);
+    setElement(matrix2, 1, 0, complex1);
+    setElement(matrix2, 1, 1, complex2);
+    result = add(matrix1, matrix2);
+    EXPECT_STRING_EQ("4", complexToString(getElement(result, 0, 0)));
+    EXPECT_STRING_EQ("4", complexToString(getElement(result, 0, 1)));
+    EXPECT_STRING_EQ("4", complexToString(getElement(result, 1, 0)));
+    EXPECT_STRING_EQ("-4", complexToString(getElement(result, 1, 1)));
+    deleteMatrix(matrix1);
+    deleteMatrix(matrix2);
+    if(result != NULL)
+        deleteMatrix(result);
+}
+
 TEST(MATRIX_MULTIPLY){
     Matrix *matrix1 = createMatrix(2, 2);
     Matrix *matrix2 = createMatrix(2, 2);
@@ -235,11 +274,6 @@ TEST(MATRIX_SCALAR_MULTIPLY){
     EXPECT_STRING_EQ("16+30i", complexToString(getElement(result, 1, 0)));
     ASSERT_NOT_NULL(complexToString(getElement(result, 1, 1)));
     EXPECT_STRING_EQ("-2+26i", complexToString(getElement(result, 1, 1)));
-    /*
-    char* scalar = "dfvdv";
-    result = scalarMultiply(matrix, scalar);
-    EXPECT_NULL(result);
-     */
     deleteMatrix(matrix);
     if(result != NULL)
         deleteMatrix(result);

@@ -35,13 +35,14 @@ Complex *stringToComplex(char *string) {
     if (string == NULL)
         return NULL;
     double real, imaginary;
-    if (sscanf(string, "%lf+%lfi", &real, &imaginary) == 2)
+    char i;
+    if (sscanf(string, "%lf+%lf%c", &real, &imaginary, &i) == 3 && i == 'i')
         return createComplex(real, imaginary);
-    if (sscanf(string, "%lf-%lfi", &real, &imaginary) == 2)
+    else if (sscanf(string, "%lf-%lf%c", &real, &imaginary, &i) == 3 && i == 'i')
         return createComplex(real, -imaginary);
-    if (sscanf(string, "%lfi", &imaginary) == 1)
+    else if (sscanf(string, "%lf%c", &imaginary, &i) == 2 && i == 'i')
         return createComplex(0, imaginary);
-    if (sscanf(string, "%lf", &real) == 1)
+    else if (sscanf(string, "%lf", &real) == 1)
         return createComplex(real, 0);
     return NULL;
 }

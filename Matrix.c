@@ -93,6 +93,8 @@ Matrix *multiply(Matrix *matrix1, Matrix *matrix2) {
 Matrix* scalarMultiply(Matrix *matrix, void *scalar) {
     if(matrix == NULL || scalar == NULL)
         return NULL;
+    if(*(double *)scalar == 0)
+        return NULL;
     Matrix *result = createMatrix(matrix->rows, matrix->columns);
     for (int i = 0; i < matrix->rows; i++) {
         for (int j = 0; j < matrix->columns; j++) {
@@ -177,7 +179,12 @@ bool menu(){
                 for (int j = 0; j < columns1; j++) {
                     char string[100];
                     scanf("%s", string);
-                    setElement(matrix1, i, j, stringToComplex(string));
+                    void* value = stringToComplex(string);
+                    if(value == NULL) {
+                        printf("Incorrect input\n");
+                        return true;
+                    }
+                    setElement(matrix1, i, j, value);
                 }
             }
             printf("Enter the elements of the second matrix\n");
@@ -273,8 +280,12 @@ bool menu(){
                 }
             }
             printf("Enter the scalar\n");
-            double scalar;
+            double scalar = 0;
             scanf("%lf", &scalar);
+            if(scalar == 0) {
+                printf("Scalar can't be 0 or incorrect input\n");
+                return true;
+            }
             Matrix *result = scalarMultiply(matrix, createComplex(scalar, 0));
             printf("___________________________________\n");
             printMatrix(matrix);
