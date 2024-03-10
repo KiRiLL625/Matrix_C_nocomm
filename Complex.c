@@ -34,19 +34,16 @@ Complex *scalarMultiplyComplex(Complex *complex, double scalar) {
 Complex *stringToComplex(char *string) {
     if (string == NULL)
         return NULL;
-    //todo: check if string is valid
-    if (strstr(string, "+") == NULL) {
-        return NULL;
-    }
-    char *token = strtok(string, "+");
-    if (strstr(token, "i") != NULL) {
-        double imaginary = atof(token);
+    double real, imaginary;
+    if (sscanf(string, "%lf+%lfi", &real, &imaginary) == 2)
+        return createComplex(real, imaginary);
+    if (sscanf(string, "%lf-%lfi", &real, &imaginary) == 2)
+        return createComplex(real, -imaginary);
+    if (sscanf(string, "%lfi", &imaginary) == 1)
         return createComplex(0, imaginary);
-    }
-    double real = atof(token);
-    token = strtok(NULL, "i");
-    double imaginary = atof(token);
-    return createComplex(real, imaginary);
+    if (sscanf(string, "%lf", &real) == 1)
+        return createComplex(real, 0);
+    return NULL;
 }
 
 char *complexToString(Complex *complex) {
@@ -67,12 +64,26 @@ char *complexToString(Complex *complex) {
             sprintf(string, "%.2lfi", complex->imaginary);
         return string;
     }
-    if((int) complex->imaginary == complex->imaginary && (int) complex->real == complex->real)
-        sprintf(string, "%.0lf+%.0lfi", complex->real, complex->imaginary);
-    else if((int) complex->real == complex->real && (int) complex->imaginary != complex->imaginary)
-        sprintf(string, "%.0lf+%.2lfi", complex->real, complex->imaginary);
-    else if((int) complex->real != complex->real && (int) complex->imaginary == complex->imaginary)
-        sprintf(string, "%.2lf+%.0lfi", complex->real, complex->imaginary);
+    if((int) complex->imaginary == complex->imaginary && (int) complex->real == complex->real) {
+        if(complex->imaginary < 0)
+            sprintf(string, "%.0lf%.0lfi", complex->real, complex->imaginary);
+        else
+            sprintf(string, "%.0lf+%.0lfi", complex->real, complex->imaginary);
+    }
+    else if((int) complex->real == complex->real && (int) complex->imaginary != complex->imaginary){
+        if(complex->imaginary < 0)
+            sprintf(string, "%.0lf%.2lfi", complex->real, complex->imaginary);
+        else
+            sprintf(string, "%.0lf+%.2lfi", complex->real, complex->imaginary);
+    }
+    else if((int) complex->real != complex->real && (int) complex->imaginary == complex->imaginary){
+        if(complex->imaginary < 0)
+            sprintf(string, "%.2lf%.0lfi", complex->real, complex->imaginary);
+        else
+            sprintf(string, "%.2lf+%.0lfi", complex->real, complex->imaginary);
+    }
+    else if(complex->imaginary < 0)
+        sprintf(string, "%.2lf%.2lfi", complex->real, complex->imaginary);
     else
         sprintf(string, "%.2lf+%.2lfi", complex->real, complex->imaginary);
     return string;
