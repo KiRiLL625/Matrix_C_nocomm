@@ -21,7 +21,6 @@ int main(){
     RUN_TEST(MATRIX_MULTIPLY);
     RUN_TEST(MATRIX_SCALAR_MULTIPLY);
 
-    //fixme: assert_failed
     if(tests_passed == total_tests)
         printf("===================================[ALL TESTS PASSED]===================================\n");
     else
