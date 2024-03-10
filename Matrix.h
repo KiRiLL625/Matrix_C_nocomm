@@ -5,6 +5,7 @@
 #ifndef L1_MATRIX_H
 #define L1_MATRIX_H
 
+#include <stdbool.h>
 #include "DynamicArray.h"
 
 typedef struct{
@@ -32,5 +33,7 @@ Matrix* addLinearCombination(Matrix* matrix, int row, void* alphas);
 void printMatrix(Matrix *matrix);
 
 int max_elem_length(DynamicArray *matrix_array);
+
+bool menu();
 
 #endif //L1_MATRIX_H

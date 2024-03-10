@@ -32,6 +32,12 @@ Complex *scalarMultiplyComplex(Complex *complex, double scalar) {
 }
 
 Complex *stringToComplex(char *string) {
+    if (string == NULL)
+        return NULL;
+    //todo: check if string is valid
+    if (strstr(string, "+") == NULL) {
+        return NULL;
+    }
     char *token = strtok(string, "+");
     if (strstr(token, "i") != NULL) {
         double imaginary = atof(token);
@@ -44,6 +50,8 @@ Complex *stringToComplex(char *string) {
 }
 
 char *complexToString(Complex *complex) {
+    if(complex == NULL)
+        return NULL;
     char *string = (char *) malloc(100 * sizeof(char));
     if(complex->imaginary == 0){
         if((int) complex->real == complex->real)
@@ -61,7 +69,11 @@ char *complexToString(Complex *complex) {
     }
     if((int) complex->imaginary == complex->imaginary && (int) complex->real == complex->real)
         sprintf(string, "%.0lf+%.0lfi", complex->real, complex->imaginary);
-    else //fixme
+    else if((int) complex->real == complex->real && (int) complex->imaginary != complex->imaginary)
+        sprintf(string, "%.0lf+%.2lfi", complex->real, complex->imaginary);
+    else if((int) complex->real != complex->real && (int) complex->imaginary == complex->imaginary)
+        sprintf(string, "%.2lf+%.0lfi", complex->real, complex->imaginary);
+    else
         sprintf(string, "%.2lf+%.2lfi", complex->real, complex->imaginary);
     return string;
 }

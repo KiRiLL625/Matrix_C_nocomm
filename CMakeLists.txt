@@ -3,4 +3,4 @@ project(l1 C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(l1 main.c DynamicArray.h DynamicArray.c Matrix.h Matrix.c Complex.h Complex.c)
+add_executable(l1 DynamicArray.h DynamicArray.c Matrix.h Matrix.c Complex.h Complex.c test.h test.c mainTest.c)
