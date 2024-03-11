@@ -8,10 +8,11 @@
 #include <stdbool.h>
 #include "DynamicArray.h"
 
+// Структура для матрицы
 typedef struct{
-    DynamicArray *matrix_array;
-    int rows;
-    int columns;
+    DynamicArray *matrix_array; // массив указателей на строки матрицы
+    int rows; // количество строк
+    int columns; // количество столбцов
 } Matrix;
 
 Matrix *createMatrix(int rows, int columns);

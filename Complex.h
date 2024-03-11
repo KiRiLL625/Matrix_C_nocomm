@@ -5,9 +5,10 @@
 #ifndef L1_COMPLEX_H
 #define L1_COMPLEX_H
 
+// Структура для комплексного числа (a + bi)
 typedef struct{
-    double real;
-    double imaginary;
+    double real; // действительная часть
+    double imaginary; // мнимая часть
 } Complex;
 
 Complex *createComplex(double real, double imaginary);

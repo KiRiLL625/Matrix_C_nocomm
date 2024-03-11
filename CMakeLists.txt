@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.22)
 project(l1 C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(l1 DynamicArray.h DynamicArray.c Matrix.h Matrix.c Complex.h Complex.c test.h test.c mainTest.c)
+add_executable(l1 DynamicArray.h DynamicArray.c Matrix.h Matrix.c Complex.h Complex.c test.h test.c main.c)

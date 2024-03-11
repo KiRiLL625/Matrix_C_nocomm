@@ -6,10 +6,13 @@
 #define L1_DYNAMICARRAY_H
 
 
+/*
+ Струкртура для динамического массива
+ */
 typedef struct {
-    void **array;
-    int size;
-    int capacity;
+    void **array; // массив указателей на элементы (void* - указатель на произвольный тип)
+    int size; // количество элементов в массиве
+    int capacity; // вместимость массива
 } DynamicArray;
 
 DynamicArray *createDynamicArray(int capacity);
