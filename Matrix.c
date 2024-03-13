@@ -105,12 +105,12 @@ Matrix* scalarMultiply(Matrix *matrix, void *scalar) {
     return result;
 }
 
-Matrix* addLinearCombination(Matrix* matrix, int row, void* alphas) {
+Matrix* addLinearCombination(Matrix* matrix, int row, void** alphas) {
     Matrix *result = createMatrix(matrix->rows, matrix->columns);
     for (int i = 0; i < matrix->rows; i++) {
         for (int j = 0; j < matrix->columns; j++) {
             if (i == row) {
-                setElement(result, i, j, addComplex(getElement(matrix, i, j), get(alphas, j)));
+                setElement(result, i, j, addComplex(getElement(matrix, i, j), alphas[j]));
             } else {
                 setElement(result, i, j, getElement(matrix, i, j));
             }
@@ -130,6 +130,16 @@ void printMatrix(Matrix *matrix) {
         printf("||");
         printf("\n");
     }
+}
+
+Matrix* transpose(Matrix* matrix) {
+    Matrix *result = createMatrix(matrix->columns, matrix->rows);
+    for (int i = 0; i < matrix->rows; i++) {
+        for (int j = 0; j < matrix->columns; j++) {
+            setElement(result, j, i, getElement(matrix, i, j));
+        }
+    }
+    return result;
 }
 
 int max_elem_length(DynamicArray *matrix_array) {
@@ -152,7 +162,8 @@ bool menu(){
     printf("2. Multiply matrices\n");
     printf("3. Multiply matrix by scalar\n");
     printf("4. Add linear combination of rows\n");
-    printf("5. Exit\n");
+    printf("5. Transpose matrix\n");
+    printf("6. Exit\n");
     char choice[1];
     scanf("%s", choice);
     int option = atoi(choice);
@@ -316,21 +327,27 @@ bool menu(){
             printf("Enter the row number\n");
             int row;
             scanf("%d", &row);
+            row--;
             printf("Enter the coefficients\n");
             DynamicArray *alphas = createDynamicArray(sizeof(Complex));
             for (int i = 0; i < columns; i++) {
                 char string[100];
                 scanf("%s", string);
-                append(alphas, stringToComplex(string));
+                Complex* complex = stringToComplex(string);
+                if(complex == NULL) {
+                    printf("Incorrect input\n");
+                    return true;
+                }
+                append(alphas, complex);
             }
-            Matrix *result = addLinearCombination(matrix, row, alphas);
+            Matrix *result = addLinearCombination(matrix, row, alphas->array);
             printf("___________________________________\n");
             printMatrix(matrix);
             printf("+\n");
-            printf("alpha1*");
+            printf("alpha1*\n");
             printMatrix(matrix);
             printf("+...+\n");
-            printf("alpha%d*", columns);
+            printf("alpha%d*\n", columns);
             printMatrix(matrix);
             printf("=\n");
             printMatrix(result);
@@ -341,6 +358,32 @@ bool menu(){
             return true;
         }
         case 5:
+            printf("Enter the number of rows and columns of the matrix\n");
+            int rows, columns;
+            scanf("%d %d", &rows, &columns);
+            Matrix *matrix = createMatrix(rows, columns);
+            if(matrix == NULL) {
+                printf("Size of matrix can't be 0\n");
+                return true;
+            }
+            printf("Enter the elements of the matrix\n");
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    char string[100];
+                    scanf("%s", string);
+                    setElement(matrix, i, j, stringToComplex(string));
+                }
+            }
+            Matrix *result = transpose(matrix);
+            printf("___________________________________\n");
+            printMatrix(matrix);
+            printf("=\n");
+            printMatrix(result);
+            printf("___________________________________\n");
+            deleteMatrix(matrix);
+            deleteMatrix(result);
+            return true;
+        case 6:
             return false;
         default:
             printf("Wrong option! Choose another.\n");

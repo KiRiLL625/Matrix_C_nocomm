@@ -9,7 +9,7 @@
 int tests_passed = 0;
 const int total_tests = 76;
 
-TEST(CREATE_DYNAMIC_ARRAY) {
+void CREATE_DYNAMIC_ARRAY(){
     DynamicArray *dynamicArray = createDynamicArray(10);
     ASSERT_INT_EQ(10, dynamicArray->capacity);
     ASSERT_INT_EQ(0, dynamicArray->size);
@@ -17,7 +17,7 @@ TEST(CREATE_DYNAMIC_ARRAY) {
     deleteDynamicArray(dynamicArray);
 }
 
-TEST(CREATE_DYNAMIC_ARRAY_HARD){
+void CREATE_DYNAMIC_ARRAY_HARD(){
     DynamicArray *dynamicArray = createDynamicArray(0);
     ASSERT_INT_EQ(0, dynamicArray->capacity);
     ASSERT_INT_EQ(0, dynamicArray->size);
@@ -25,7 +25,7 @@ TEST(CREATE_DYNAMIC_ARRAY_HARD){
     deleteDynamicArray(dynamicArray);
 }
 
-TEST(INSERT_DYNAMIC_ARRAY){
+void INSERT_DYNAMIC_ARRAY(){
     DynamicArray *dynamicArray = createDynamicArray(10);
     int value = 5;
     insert(dynamicArray, 0, &value);
@@ -42,7 +42,7 @@ TEST(INSERT_DYNAMIC_ARRAY){
     deleteDynamicArray(dynamicArray);
 }
 
-TEST(CREATE_COMPLEX){
+void CREATE_COMPLEX(){
     Complex *complex = createComplex(5, 3);
     ASSERT_INT_EQ(5, complex->real);
     ASSERT_INT_EQ(3, complex->imaginary);
@@ -50,7 +50,7 @@ TEST(CREATE_COMPLEX){
     deleteComplex(complex);
 }
 
-TEST(ADD_COMPLEX){
+void ADD_COMPLEX(){
     Complex *complex1 = createComplex(5, 3);
     Complex *complex2 = createComplex(2, 4);
     Complex *result = addComplex(complex1, complex2);
@@ -62,7 +62,7 @@ TEST(ADD_COMPLEX){
     deleteComplex(result);
 }
 
-TEST(MULTIPLY_COMPLEX){
+void MULTIPLY_COMPLEX(){
     Complex *complex1 = createComplex(5, 3);
     Complex *complex2 = createComplex(2, 4);
     Complex *result = multiplyComplex(complex1, complex2);
@@ -74,7 +74,7 @@ TEST(MULTIPLY_COMPLEX){
     deleteComplex(result);
 }
 
-TEST(STRING_TO_COMPLEX){
+void STRING_TO_COMPLEX(){
     char string[] = "5+3i";
     Complex *complex = stringToComplex(string);
     EXPECT_NOT_NULL(complex);
@@ -83,7 +83,7 @@ TEST(STRING_TO_COMPLEX){
     deleteComplex(complex);
 }
 
-TEST(COMPLEX_TO_STRING){
+void COMPLEX_TO_STRING(){
     Complex *complex = createComplex(5, 3);
     char *string = complexToString(complex);
     ASSERT_STRING_EQ("5+3i", string);
@@ -111,7 +111,7 @@ TEST(COMPLEX_TO_STRING){
     free(string);
 }
 
-TEST(SCALAR_MULTIPLY_COMPLEX){
+void SCALAR_MULTIPLY_COMPLEX(){
     Complex *complex = createComplex(5, 3);
     Complex *result = scalarMultiplyComplex(complex, 2);
     ASSERT_INT_EQ(10, result->real);
@@ -121,7 +121,7 @@ TEST(SCALAR_MULTIPLY_COMPLEX){
     deleteComplex(result);
 }
 
-TEST(CREATE_MATRIX){
+void CREATE_MATRIX(){
     Matrix *matrix = createMatrix(3, 3);
     ASSERT_INT_EQ(3, matrix->rows);
     ASSERT_INT_EQ(3, matrix->columns);
@@ -136,7 +136,7 @@ TEST(CREATE_MATRIX){
         deleteMatrix(matrix);
 }
 
-TEST(MATRIX_SET_ELEM){
+void MATRIX_SET_ELEM(){
     Matrix *matrix = createMatrix(3, 3);
     Complex *complex = createComplex(5, 3);
     setElement(matrix, 1, 1, complex);
@@ -149,7 +149,7 @@ TEST(MATRIX_SET_ELEM){
     deleteComplex(complex);
 }
 
-TEST(MATRIX_GET_ELEM){
+void MATRIX_GET_ELEM(){
     Matrix *matrix = createMatrix(3, 3);
     Complex *complex = createComplex(5, 3);
     setElement(matrix, 1, 1, complex);
@@ -159,7 +159,7 @@ TEST(MATRIX_GET_ELEM){
     deleteComplex(complex);
 }
 
-TEST(MATRIX_ADD){
+void MATRIX_ADD(){
     Matrix *matrix1 = createMatrix(2, 2);
     Matrix *matrix2 = createMatrix(2, 2);
     Complex *complex1 = createComplex(5, 3);
@@ -187,7 +187,7 @@ TEST(MATRIX_ADD){
         deleteMatrix(result);
 }
 
-TEST(MATRIX_ADD_HARD){
+void MATRIX_ADD_HARD(){
     Matrix *matrix1 = createMatrix(2, 2);
     Matrix *matrix2 = createMatrix(2, 2);
     Complex *complex1 = createComplex(0, 2);
@@ -226,7 +226,7 @@ TEST(MATRIX_ADD_HARD){
         deleteMatrix(result);
 }
 
-TEST(MATRIX_MULTIPLY){
+void MATRIX_MULTIPLY(){
     Matrix *matrix1 = createMatrix(2, 2);
     Matrix *matrix2 = createMatrix(2, 2);
     Complex *complex1 = createComplex(5, 3);
@@ -256,7 +256,7 @@ TEST(MATRIX_MULTIPLY){
     deleteMatrix(matrix4);
 }
 
-TEST(MATRIX_SCALAR_MULTIPLY){
+void MATRIX_SCALAR_MULTIPLY(){
     Matrix *matrix = createMatrix(2, 2);
     ASSERT_NOT_NULL(matrix)
     Complex *complex1 = createComplex(5, 3);
@@ -274,6 +274,31 @@ TEST(MATRIX_SCALAR_MULTIPLY){
     EXPECT_STRING_EQ("16+30i", complexToString(getElement(result, 1, 0)));
     ASSERT_NOT_NULL(complexToString(getElement(result, 1, 1)));
     EXPECT_STRING_EQ("-2+26i", complexToString(getElement(result, 1, 1)));
+    deleteMatrix(matrix);
+    if(result != NULL)
+        deleteMatrix(result);
+}
+
+void MATRIX_ADD_LIN_COMB(){
+    Matrix *matrix = createMatrix(2, 2);
+    Complex *complex1 = createComplex(5, 3);
+    Complex *complex2 = createComplex(2, 4);
+    setElement(matrix, 0, 0, complex1);
+    setElement(matrix, 0, 1, complex2);
+    setElement(matrix, 1, 0, complex1);
+    setElement(matrix, 1, 1, complex2);
+    DynamicArray *alphas = createDynamicArray(2);
+    insert(alphas, 0, complex1);
+    insert(alphas, 1, complex2);
+    Matrix *result = addLinearCombination(matrix, 0, alphas->array);
+    ASSERT_NOT_NULL(complexToString(getElement(result, 0, 0)));
+    EXPECT_STRING_EQ("16+30i", complexToString(getElement(result, 0, 0)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 0, 1)));
+    EXPECT_STRING_EQ("2+26i", complexToString(getElement(result, 0, 1)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 1, 0)));
+    EXPECT_STRING_EQ("16+30i", complexToString(getElement(result, 1, 0)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 1, 1)));
+    EXPECT_STRING_EQ("2+26i", complexToString(getElement(result, 1, 1)));
     deleteMatrix(matrix);
     if(result != NULL)
         deleteMatrix(result);

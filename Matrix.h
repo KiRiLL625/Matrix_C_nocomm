@@ -28,7 +28,9 @@ Matrix* multiply(Matrix *matrix1, Matrix *matrix2);
 
 Matrix* scalarMultiply(Matrix *matrix, void *scalar);
 
-Matrix* addLinearCombination(Matrix* matrix, int row, void* alphas);
+Matrix* addLinearCombination(Matrix* matrix, int row, void** alphas);
+
+Matrix* transpose(Matrix* matrix);
 
 void printMatrix(Matrix *matrix);
 
