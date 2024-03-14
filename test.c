@@ -7,7 +7,7 @@
 #include "Complex.h"
 
 int tests_passed = 0;
-const int total_tests = 76;
+const int total_tests = 92;
 
 void CREATE_DYNAMIC_ARRAY(){
     DynamicArray *dynamicArray = createDynamicArray(10);
@@ -292,13 +292,35 @@ void MATRIX_ADD_LIN_COMB(){
     insert(alphas, 1, complex2);
     Matrix *result = addLinearCombination(matrix, 0, alphas->array);
     ASSERT_NOT_NULL(complexToString(getElement(result, 0, 0)));
-    EXPECT_STRING_EQ("16+30i", complexToString(getElement(result, 0, 0)));
+    EXPECT_STRING_EQ("10+6i", complexToString(getElement(result, 0, 0)));
     ASSERT_NOT_NULL(complexToString(getElement(result, 0, 1)));
-    EXPECT_STRING_EQ("2+26i", complexToString(getElement(result, 0, 1)));
+    EXPECT_STRING_EQ("4+8i", complexToString(getElement(result, 0, 1)));
     ASSERT_NOT_NULL(complexToString(getElement(result, 1, 0)));
-    EXPECT_STRING_EQ("16+30i", complexToString(getElement(result, 1, 0)));
+    EXPECT_STRING_EQ("5+3i", complexToString(getElement(result, 1, 0)));
     ASSERT_NOT_NULL(complexToString(getElement(result, 1, 1)));
-    EXPECT_STRING_EQ("2+26i", complexToString(getElement(result, 1, 1)));
+    EXPECT_STRING_EQ("2+4i", complexToString(getElement(result, 1, 1)));
+    deleteMatrix(matrix);
+    if(result != NULL)
+        deleteMatrix(result);
+}
+
+void MATRIX_TRANSPOSE(){
+    Matrix *matrix = createMatrix(2, 2);
+    Complex *complex1 = createComplex(5, 3);
+    Complex *complex2 = createComplex(2, 4);
+    setElement(matrix, 0, 0, complex1);
+    setElement(matrix, 0, 1, complex2);
+    setElement(matrix, 1, 0, complex1);
+    setElement(matrix, 1, 1, complex2);
+    Matrix *result = transpose(matrix);
+    ASSERT_NOT_NULL(complexToString(getElement(result, 0, 0)));
+    EXPECT_STRING_EQ("5+3i", complexToString(getElement(result, 0, 0)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 0, 1)));
+    EXPECT_STRING_EQ("2+4i", complexToString(getElement(result, 1, 0)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 1, 0)));
+    EXPECT_STRING_EQ("5+3i", complexToString(getElement(result, 0, 1)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 1, 1)));
+    EXPECT_STRING_EQ("2+4i", complexToString(getElement(result, 1, 1)));
     deleteMatrix(matrix);
     if(result != NULL)
         deleteMatrix(result);

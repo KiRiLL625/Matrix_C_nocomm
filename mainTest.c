@@ -22,6 +22,7 @@ int main(){
     RUN_TEST(MATRIX_MULTIPLY);
     RUN_TEST(MATRIX_SCALAR_MULTIPLY);
     RUN_TEST(MATRIX_ADD_LIN_COMB);
+    RUN_TEST(MATRIX_TRANSPOSE);
 
     if(tests_passed == total_tests)
         printf("===================================[ALL TESTS PASSED]===================================\n");

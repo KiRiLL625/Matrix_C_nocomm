@@ -133,6 +133,8 @@ void printMatrix(Matrix *matrix) {
 }
 
 Matrix* transpose(Matrix* matrix) {
+    if(matrix == NULL)
+        return NULL;
     Matrix *result = createMatrix(matrix->columns, matrix->rows);
     for (int i = 0; i < matrix->rows; i++) {
         for (int j = 0; j < matrix->columns; j++) {
@@ -377,6 +379,7 @@ bool menu(){
             Matrix *result = transpose(matrix);
             printf("___________________________________\n");
             printMatrix(matrix);
+            printf("T\n");
             printf("=\n");
             printMatrix(result);
             printf("___________________________________\n");
