@@ -7,12 +7,12 @@
 #include "Complex.h"
 
 int tests_passed = 0; //количество пройденных тестов
-const int total_tests = 76; //общее количество тестов
+const int total_tests = 92; //общее количество тестов
 
 //Описание функций (макросов) для тестирования
 
 //Тест на создание динамического массива
-TEST(CREATE_DYNAMIC_ARRAY) {
+void CREATE_DYNAMIC_ARRAY(){
     DynamicArray *dynamicArray = createDynamicArray(10);
     //проверка, что вместимость массива равна 10
     ASSERT_INT_EQ(10, dynamicArray->capacity);
@@ -25,7 +25,7 @@ TEST(CREATE_DYNAMIC_ARRAY) {
 }
 
 //Тест на создание динамического массива с нулевой вместимостью
-TEST(CREATE_DYNAMIC_ARRAY_HARD){
+void CREATE_DYNAMIC_ARRAY_HARD(){
     //создание динамического массива с вместимостью 0
     DynamicArray *dynamicArray = createDynamicArray(0);
     //проверка, что вместимость массива равна 0
@@ -39,7 +39,7 @@ TEST(CREATE_DYNAMIC_ARRAY_HARD){
 }
 
 //Тест на вставку элементов в динамический массив
-TEST(INSERT_DYNAMIC_ARRAY){
+void INSERT_DYNAMIC_ARRAY(){
     //создание динамического массива
     DynamicArray *dynamicArray = createDynamicArray(10);
     //вставка элемента в массив
@@ -68,7 +68,7 @@ TEST(INSERT_DYNAMIC_ARRAY){
 }
 
 //Тест на создание комплексного числа
-TEST(CREATE_COMPLEX){
+void CREATE_COMPLEX(){
     //создание комплексного числа
     Complex *complex = createComplex(5, 3);
     //проверка, что действительная часть равна 5
@@ -82,7 +82,7 @@ TEST(CREATE_COMPLEX){
 }
 
 //Тест на сложение комплексных чисел
-TEST(ADD_COMPLEX){
+void ADD_COMPLEX(){
     //создание двух комплексных чисел
     Complex *complex1 = createComplex(5, 3);
     Complex *complex2 = createComplex(2, 4);
@@ -101,7 +101,7 @@ TEST(ADD_COMPLEX){
 }
 
 //Тест на умножение комплексных чисел
-TEST(MULTIPLY_COMPLEX){
+void MULTIPLY_COMPLEX(){
     //создание двух комплексных чисел
     Complex *complex1 = createComplex(5, 3);
     Complex *complex2 = createComplex(2, 4);
@@ -119,7 +119,7 @@ TEST(MULTIPLY_COMPLEX){
 }
 
 //Тест на преобразование строки в комплексное число
-TEST(STRING_TO_COMPLEX){
+void STRING_TO_COMPLEX(){
     //преобразование строки в комплексное число
     char string[] = "5+3i";
     Complex *complex = stringToComplex(string);
@@ -134,7 +134,7 @@ TEST(STRING_TO_COMPLEX){
 }
 
 //Тест на преобразование комплексного числа в строку
-TEST(COMPLEX_TO_STRING){
+void COMPLEX_TO_STRING(){
     //создание комплексного числа
     Complex *complex = createComplex(5, 3);
     //преобразование комплексного числа в строку
@@ -168,7 +168,7 @@ TEST(COMPLEX_TO_STRING){
 }
 
 //Тест на сложение матриц
-TEST(SCALAR_MULTIPLY_COMPLEX){
+void SCALAR_MULTIPLY_COMPLEX(){
     //создание комплексного числа
     Complex *complex = createComplex(5, 3);
     //умножение комплексного числа на скаляр
@@ -184,7 +184,7 @@ TEST(SCALAR_MULTIPLY_COMPLEX){
 }
 
 //Тест на создание матрицы
-TEST(CREATE_MATRIX){
+void CREATE_MATRIX(){
     //создание матрицы
     Matrix *matrix = createMatrix(3, 3);
     //проверка, что количество строк и столбцов равно 3
@@ -204,7 +204,7 @@ TEST(CREATE_MATRIX){
 }
 
 //Тест на установку элемента матрицы
-TEST(MATRIX_SET_ELEM){
+void MATRIX_SET_ELEM(){
     //создание матрицы
     Matrix *matrix = createMatrix(3, 3);
     //создание комплексного числа
@@ -224,7 +224,7 @@ TEST(MATRIX_SET_ELEM){
 }
 
 //Тест на получение элемента матрицы
-TEST(MATRIX_GET_ELEM){
+void MATRIX_GET_ELEM(){
     //создание матрицы
     Matrix *matrix = createMatrix(3, 3);
     //создание комплексного числа
@@ -241,7 +241,7 @@ TEST(MATRIX_GET_ELEM){
 }
 
 //Тест на сложение матриц
-TEST(MATRIX_ADD){
+void MATRIX_ADD(){
     //создание двух матриц и установка элементов
     Matrix *matrix1 = createMatrix(2, 2);
     Matrix *matrix2 = createMatrix(2, 2);
@@ -276,7 +276,7 @@ TEST(MATRIX_ADD){
 }
 
 //Тест на сложение матриц с комплексными числами
-TEST(MATRIX_ADD_HARD){
+void MATRIX_ADD_HARD(){
     Matrix *matrix1 = createMatrix(2, 2);
     Matrix *matrix2 = createMatrix(2, 2);
     Complex *complex1 = createComplex(0, 2);
@@ -318,7 +318,7 @@ TEST(MATRIX_ADD_HARD){
 }
 
 //Тест на умножение матриц
-TEST(MATRIX_MULTIPLY){
+void MATRIX_MULTIPLY(){
     //создание матриц и установка элементов
     Matrix *matrix1 = createMatrix(2, 2);
     Matrix *matrix2 = createMatrix(2, 2);
@@ -352,7 +352,7 @@ TEST(MATRIX_MULTIPLY){
 }
 
 //Тест на умножение матриц на скаляр
-TEST(MATRIX_SCALAR_MULTIPLY){
+void MATRIX_SCALAR_MULTIPLY(){
     Matrix *matrix = createMatrix(2, 2);
     ASSERT_NOT_NULL(matrix)
     Complex *complex1 = createComplex(5, 3);
@@ -372,6 +372,64 @@ TEST(MATRIX_SCALAR_MULTIPLY){
     EXPECT_STRING_EQ("16+30i", complexToString(getElement(result, 1, 0)));
     ASSERT_NOT_NULL(complexToString(getElement(result, 1, 1)));
     EXPECT_STRING_EQ("-2+26i", complexToString(getElement(result, 1, 1)));
+    deleteMatrix(matrix);
+    if(result != NULL)
+        deleteMatrix(result);
+}
+
+//Тест на сложение матрицы с линейной комбинацией
+void MATRIX_ADD_LIN_COMB(){
+    //создание матрицы и установка элементов
+    Matrix *matrix = createMatrix(2, 2);
+    Complex *complex1 = createComplex(5, 3);
+    Complex *complex2 = createComplex(2, 4);
+    setElement(matrix, 0, 0, complex1);
+    setElement(matrix, 0, 1, complex2);
+    setElement(matrix, 1, 0, complex1);
+    setElement(matrix, 1, 1, complex2);
+    //создание динамического массива и вставка элементов - коэффициентов
+    DynamicArray *alphas = createDynamicArray(2);
+    insert(alphas, 0, complex1);
+    insert(alphas, 1, complex2);
+    //сложение матрицы с линейной комбинацией
+    Matrix *result = addLinearCombination(matrix, 0, alphas->array);
+    //проверка на правильность сложения всех элементов и правильность работы функции complexToString
+    ASSERT_NOT_NULL(complexToString(getElement(result, 0, 0)));
+    EXPECT_STRING_EQ("10+6i", complexToString(getElement(result, 0, 0)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 0, 1)));
+    EXPECT_STRING_EQ("4+8i", complexToString(getElement(result, 0, 1)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 1, 0)));
+    EXPECT_STRING_EQ("5+3i", complexToString(getElement(result, 1, 0)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 1, 1)));
+    EXPECT_STRING_EQ("2+4i", complexToString(getElement(result, 1, 1)));
+    //удаление матрицы и динамического массива
+    deleteMatrix(matrix);
+    if(result != NULL)
+        deleteMatrix(result);
+}
+
+//Тест на вывод матрицы
+void MATRIX_TRANSPOSE(){
+    //создание матрицы и установка элементов
+    Matrix *matrix = createMatrix(2, 2);
+    Complex *complex1 = createComplex(5, 3);
+    Complex *complex2 = createComplex(2, 4);
+    setElement(matrix, 0, 0, complex1);
+    setElement(matrix, 0, 1, complex2);
+    setElement(matrix, 1, 0, complex1);
+    setElement(matrix, 1, 1, complex2);
+    //транспонирование матрицы
+    Matrix *result = transpose(matrix);
+    //проверка на правильность транспонирования всех элементов
+    ASSERT_NOT_NULL(complexToString(getElement(result, 0, 0)));
+    EXPECT_STRING_EQ("5+3i", complexToString(getElement(result, 0, 0)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 0, 1)));
+    EXPECT_STRING_EQ("2+4i", complexToString(getElement(result, 1, 0)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 1, 0)));
+    EXPECT_STRING_EQ("5+3i", complexToString(getElement(result, 0, 1)));
+    ASSERT_NOT_NULL(complexToString(getElement(result, 1, 1)));
+    EXPECT_STRING_EQ("2+4i", complexToString(getElement(result, 1, 1)));
+    //удаление матрицы
     deleteMatrix(matrix);
     if(result != NULL)
         deleteMatrix(result);

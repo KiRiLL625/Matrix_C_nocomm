@@ -156,15 +156,40 @@ Matrix* scalarMultiply(Matrix *matrix, void *scalar) {
 }
 
 //функция сложения линейной комбинации строк
-Matrix* addLinearCombination(Matrix* matrix, int row, void* alphas) {
+Matrix* addLinearCombination(Matrix* matrix, int row, void** alphas) {
+    //проверка: если матрица равна NULL, или количество строк или столбцов равно 0, то возвращаем NULL
+    if(matrix == NULL || matrix->rows == 0 || matrix->columns == 0)
+        return NULL;
+    //создание новой (результирующей) матрицы
     Matrix *result = createMatrix(matrix->rows, matrix->columns);
+    //цикл по строкам
     for (int i = 0; i < matrix->rows; i++) {
+        //цикл по столбцам
         for (int j = 0; j < matrix->columns; j++) {
+            //если текущая строка равна введённой, то устанавливаем значение в результирующей матрице
             if (i == row) {
-                setElement(result, i, j, addComplex(getElement(matrix, i, j), get(alphas, j)));
-            } else {
+                setElement(result, i, j, addComplex(getElement(matrix, i, j), alphas[j]));
+            } else { //иначе устанавливаем значение из матрицы
                 setElement(result, i, j, getElement(matrix, i, j));
             }
+        }
+    }
+    return result;
+}
+
+//функция транспонирования матрицы
+Matrix* transpose(Matrix* matrix) {
+    //проверка: если матрица равна NULL, или количество строк или столбцов равно 0, то возвращаем NULL
+    if(matrix == NULL)
+        return NULL;
+    //создание новой (результирующей) матрицы
+    Matrix *result = createMatrix(matrix->columns, matrix->rows);
+    //цикл по строкам
+    for (int i = 0; i < matrix->rows; i++) {
+        //цикл по столбцам
+        for (int j = 0; j < matrix->columns; j++) {
+            //установка значения в результирующей матрице (транспонирование значений из матрицы)
+            setElement(result, j, i, getElement(matrix, i, j));
         }
     }
     return result;
@@ -219,7 +244,8 @@ bool menu(){
     printf("2. Multiply matrices\n");
     printf("3. Multiply matrix by scalar\n");
     printf("4. Add linear combination of rows\n");
-    printf("5. Exit\n");
+    printf("5. Transpose matrix\n");
+    printf("6. Exit\n");
     //переменная, отвечающая за выбор пользователя (сделана в виде char, чтобы можно было ввести 1 символ)
     //и для обработки неправильного ввода пункта (если пользователь ввёл не число)
     char choice[1];
@@ -435,6 +461,34 @@ bool menu(){
         }
         //если мы хотим выйти из программы, то возвращаем false, чтобы прервать цикл while в main
         case 5:
+            //тут всё по тому же шаблону, что и в case 1
+            printf("Enter the number of rows and columns of the matrix\n");
+            int rows, columns;
+            scanf("%d %d", &rows, &columns);
+            Matrix *matrix = createMatrix(rows, columns);
+            if(matrix == NULL) {
+                printf("Size of matrix can't be 0\n");
+                return true;
+            }
+            printf("Enter the elements of the matrix\n");
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    char string[100];
+                    scanf("%s", string);
+                    setElement(matrix, i, j, stringToComplex(string));
+                }
+            }
+            Matrix *result = transpose(matrix);
+            printf("___________________________________\n");
+            printMatrix(matrix);
+            printf("T\n");
+            printf("=\n");
+            printMatrix(result);
+            printf("___________________________________\n");
+            deleteMatrix(matrix);
+            deleteMatrix(result);
+            return true;
+        case 6:
             return false;
         //если пользователь ввёл неправильный пункт, то выводим сообщение об ошибке
         default:

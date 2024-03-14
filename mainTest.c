@@ -6,7 +6,6 @@
 
 int main(){
     //Запуск каждого теста по имени с помощью макроса RUN_TEST
-    //В редакторе название тестов может подсвечиваться красным, но это не ошибка
     RUN_TEST(CREATE_DYNAMIC_ARRAY);
     RUN_TEST(CREATE_DYNAMIC_ARRAY_HARD);
     RUN_TEST(INSERT_DYNAMIC_ARRAY);
@@ -23,6 +22,8 @@ int main(){
     RUN_TEST(MATRIX_ADD_HARD);
     RUN_TEST(MATRIX_MULTIPLY);
     RUN_TEST(MATRIX_SCALAR_MULTIPLY);
+    RUN_TEST(MATRIX_ADD_LIN_COMB);
+    RUN_TEST(MATRIX_TRANSPOSE);
 
     //если все тесты пройдены, то выводится сообщение "ALL TESTS PASSED"
     if(tests_passed == total_tests)

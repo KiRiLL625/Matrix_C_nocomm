@@ -14,8 +14,8 @@
 extern int tests_passed; //количество пройденных тестов
 extern const int total_tests; //общее количество тестов
 
-//Макрос для создания теста (внутри содержит функцию test_name)
-#define TEST(test_name) void test_name()
+//Макрос для создания теста (внутри содержит функцию test_name) (не используется)
+//#define TEST(test_name) void test_name()
 //Макрос для запуска теста по его имени (вызывает функцию test_name, которая описана внутри TEST)
 #define RUN_TEST(test_name) printf("================[RUNNING TEST: %s]================\n", #test_name); test_name()
 //Макрос для проверки равенства двух целых чисел
@@ -43,4 +43,24 @@ extern const int total_tests; //общее количество тестов
  Синтаксис для макросов такой же, как и в обычном Си, только пишется всё в одну строку (без переносов),
  и если мы хотим вывести строку в printf, то перед названием переменной ставится #.
  */
+
+//Описание функций для тестирования
+void CREATE_DYNAMIC_ARRAY();
+void CREATE_DYNAMIC_ARRAY_HARD();
+void INSERT_DYNAMIC_ARRAY();
+void CREATE_COMPLEX();
+void ADD_COMPLEX();
+void MULTIPLY_COMPLEX();
+void STRING_TO_COMPLEX();
+void COMPLEX_TO_STRING();
+void SCALAR_MULTIPLY_COMPLEX();
+void CREATE_MATRIX();
+void MATRIX_SET_ELEM();
+void MATRIX_GET_ELEM();
+void MATRIX_ADD();
+void MATRIX_ADD_HARD();
+void MATRIX_MULTIPLY();
+void MATRIX_SCALAR_MULTIPLY();
+void MATRIX_ADD_LIN_COMB();
+void MATRIX_TRANSPOSE();
 #endif //L1_TEST_H
