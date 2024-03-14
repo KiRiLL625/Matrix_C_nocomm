@@ -12,7 +12,6 @@
 extern int tests_passed;
 extern const int total_tests;
 
-//todo: fix total_tests
 //#define TEST(test_name) void test_name()
 #define RUN_TEST(test_name) printf("================[RUNNING TEST: %s]================\n", #test_name); test_name()
 #define EXPECT_INT_EQ(expected, actual) if(expected != actual){ printf("[TEST FAILED]: %d != %d\n", expected, actual);} else {printf("[TEST PASSED]\n"); tests_passed++;}
