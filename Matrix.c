@@ -162,7 +162,6 @@ Matrix* addLinearCombination(Matrix* matrix, int row, void** alphas) {
         return NULL;
     //создание новой (результирующей) матрицы
     Matrix *result = createMatrix(matrix->rows, matrix->columns);
-    row--;
     //цикл по строкам
     for (int i = 0; i < matrix->rows; i++) {
         //цикл по столбцам
@@ -237,10 +236,28 @@ int max_elem_length(DynamicArray *matrix_array) {
     return max;
 }
 
+void example_row_column(){
+    printf("______________________________________________\n");
+    printf("Examples:\n");
+    printf("3 2\n\n");
+    printf("3\n2\n");
+    printf("______________________________________________\n");
+}
+
+void example(){
+    printf("______________________________________________\n");
+    printf("Examples:\n");
+    printf("1 2\n3 4\n\n");
+    printf(" 2+3i    3i   -5i\n    4 -2+9i     0\n-8-5i   -2i     1\n");
+    printf("\n");
+    printf("2+3i 3i -5i 4 -2+9i 0 -8-5i -2i 1\n");
+    printf("______________________________________________\n");
+}
+
 //функция меню (интерфейс программы)
 bool menu(){
     //вывод меню
-    printf("Choose an option:\n");
+    printf("Choose an option and enter it:\n");
     printf("1. Add matrices\n");
     printf("2. Multiply matrices\n");
     printf("3. Multiply matrix by scalar\n");
@@ -258,10 +275,12 @@ bool menu(){
         case 1: {
             //ввод количества строк и столбцов первой матрицы
             printf("Enter the number of rows and columns of the first matrix\n");
+            example_row_column();
             int rows1, columns1;
             scanf("%d %d", &rows1, &columns1);
             Matrix *matrix1 = createMatrix(rows1, columns1);
             printf("Enter the number of rows and columns of the second matrix\n");
+            example_row_column();
             int rows2, columns2;
             scanf("%d %d", &rows2, &columns2);
             Matrix *matrix2 = createMatrix(rows2, columns2);
@@ -277,6 +296,7 @@ bool menu(){
             }
             //ввод элементов первой матрицы
             printf("Enter the elements of the first matrix\n");
+            example();
             for (int i = 0; i < rows1; i++) {
                 for (int j = 0; j < columns1; j++) {
                     char string[100];
@@ -293,6 +313,7 @@ bool menu(){
                 }
             }
             printf("Enter the elements of the second matrix\n");
+            example();
             for (int i = 0; i < rows2; i++) {
                 for (int j = 0; j < columns2; j++) {
                     char string[100];
@@ -326,10 +347,12 @@ bool menu(){
         case 2: {
             //тут всё по тому же шаблону, что и в case 1
             printf("Enter the number of rows and columns of the first matrix\n");
+            example_row_column();
             int rows1, columns1;
             scanf("%d %d", &rows1, &columns1);
             Matrix *matrix1 = createMatrix(rows1, columns1);
             printf("Enter the number of rows and columns of the second matrix\n");
+            example_row_column();
             int rows2, columns2;
             scanf("%d %d", &rows2, &columns2);
             Matrix *matrix2 = createMatrix(rows2, columns2);
@@ -342,6 +365,7 @@ bool menu(){
                 return true;
             }
             printf("Enter the elements of the first matrix\n");
+            example();
             for (int i = 0; i < rows1; i++) {
                 for (int j = 0; j < columns1; j++) {
                     char string[100];
@@ -350,6 +374,7 @@ bool menu(){
                 }
             }
             printf("Enter the elements of the second matrix\n");
+            example();
             for (int i = 0; i < rows2; i++) {
                 for (int j = 0; j < columns2; j++) {
                     char string[100];
@@ -378,6 +403,7 @@ bool menu(){
         case 3: {
             //ввод элементов матрицы
             printf("Enter the number of rows and columns of the matrix\n");
+            example_row_column();
             int rows, columns;
             scanf("%d %d", &rows, &columns);
             Matrix *matrix = createMatrix(rows, columns);
@@ -386,6 +412,7 @@ bool menu(){
                 return true;
             }
             printf("Enter the elements of the matrix\n");
+            example();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
                     char string[100];
@@ -418,6 +445,7 @@ bool menu(){
         //если мы хотим сложить линейную комбинацию строк
         case 4: {
             printf("Enter the number of rows and columns of the matrix\n");
+            example_row_column();
             int rows, columns;
             scanf("%d %d", &rows, &columns);
             Matrix *matrix = createMatrix(rows, columns);
@@ -426,6 +454,7 @@ bool menu(){
                 return true;
             }
             printf("Enter the elements of the matrix\n");
+            example();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
                     char string[100];
@@ -436,22 +465,28 @@ bool menu(){
             printf("Enter the row number\n");
             int row;
             scanf("%d", &row);
-            //row--;
+            row--;
             printf("Enter the coefficients\n");
+            example_row_column();
             DynamicArray *alphas = createDynamicArray(sizeof(Complex));
             for (int i = 0; i < columns; i++) {
                 char string[100];
                 scanf("%s", string);
-                append(alphas, stringToComplex(string));
+                Complex* complex = stringToComplex(string);
+                if(complex == NULL) {
+                    printf("Incorrect input\n");
+                    return true;
+                }
+                append(alphas, complex);
             }
-            Matrix *result = addLinearCombination(matrix, row, alphas);
+            Matrix *result = addLinearCombination(matrix, row, alphas->array);
             printf("___________________________________\n");
             printMatrix(matrix);
             printf("+\n");
-            printf("alpha1*");
+            printf("alpha1*\n");
             printMatrix(matrix);
             printf("+...+\n");
-            printf("alpha%d*", columns);
+            printf("alpha%d*\n", columns);
             printMatrix(matrix);
             printf("=\n");
             printMatrix(result);
@@ -465,6 +500,7 @@ bool menu(){
         case 5:
             //тут всё по тому же шаблону, что и в case 1
             printf("Enter the number of rows and columns of the matrix\n");
+            example_row_column();
             int rows, columns;
             scanf("%d %d", &rows, &columns);
             Matrix *matrix = createMatrix(rows, columns);
@@ -473,6 +509,7 @@ bool menu(){
                 return true;
             }
             printf("Enter the elements of the matrix\n");
+            example();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
                     char string[100];

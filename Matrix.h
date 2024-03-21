@@ -37,6 +37,10 @@ void printMatrix(Matrix *matrix);
 
 int max_elem_length(DynamicArray *matrix_array);
 
+void example();
+
+void example_row_column();
+
 bool menu();
 
 #endif //L1_MATRIX_H
