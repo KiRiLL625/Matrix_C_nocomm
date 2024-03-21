@@ -162,6 +162,7 @@ Matrix* addLinearCombination(Matrix* matrix, int row, void** alphas) {
         return NULL;
     //создание новой (результирующей) матрицы
     Matrix *result = createMatrix(matrix->rows, matrix->columns);
+    row--;
     //цикл по строкам
     for (int i = 0; i < matrix->rows; i++) {
         //цикл по столбцам
@@ -435,6 +436,7 @@ bool menu(){
             printf("Enter the row number\n");
             int row;
             scanf("%d", &row);
+            //row--;
             printf("Enter the coefficients\n");
             DynamicArray *alphas = createDynamicArray(sizeof(Complex));
             for (int i = 0; i < columns; i++) {
