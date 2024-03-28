@@ -21,7 +21,7 @@ void deleteMatrix(Matrix *matrix);
 
 void setElement(Matrix *matrix, int row, int column, void *value);
 
-void *getElement(Matrix *matrix, int row, int column);
+void *getElement(Matrix *matrix, int row, int column); //void** void* - указатели на элемент любого типа
 
 Matrix* add(Matrix *matrix1, Matrix *matrix2);
 

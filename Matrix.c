@@ -13,7 +13,7 @@ Matrix *createMatrix(int rows, int columns) {
     //выделение памяти под структуру
     Matrix *matrix = (Matrix *) malloc(sizeof(Matrix));
     //если количество строк или столбцов равно 0, то возвращаем NULL
-    if(rows == 0 || columns == 0)
+    if(rows <= 0 || columns <= 0)
         return NULL;
     //выделение памяти под массив указателей на строки матрицы
     matrix->matrix_array = createDynamicArray(rows);
@@ -67,7 +67,7 @@ void setElement(Matrix *matrix, int row, int column, void *value) {
 }
 
 //функция получения элемента матрицы
-void *getElement(Matrix *matrix, int row, int column) {
+void* getElement(Matrix *matrix, int row, int column) {
     //проверка: если строка или столбец отрицательные, или матрица равна NULL, то возвращаем NULL
     if(row < 0 || column < 0 || matrix == NULL){
         return NULL;
